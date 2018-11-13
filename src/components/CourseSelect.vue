@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-select :options="options"/>
+    <vue-select label="name" :options="courses"/>
   </div>
 </template>
 
@@ -9,12 +9,12 @@
   import Vue from 'vue';
   Vue.component('v-select', VueSelect.VueSelect);
 
-  let items = [1, 2, 3];
   export default {
     name: "course-select",
-    data: function() {
-      return {
-        options: items
+    props: {
+      courses: {
+        type: Array,
+        default: []
       }
     },
     components: { VueSelect }
