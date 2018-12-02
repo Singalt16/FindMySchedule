@@ -4,7 +4,7 @@
         <div v-for="course in selectedCourses">
             <label>{{course.name}}</label>
             <div v-for="section in course.sections">
-                <input type="checkbox" v-model="section.selected" v-on:click="displayCourses()" checked>
+                <input type="checkbox" v-model="section.selected" v-on:change="updateSelection" checked>
                 <label>Section: {{section.name}}</label>
                 <div v-for="time in section.meetTimes">
                     <span>{{getDaysString(time.days)}}</span>
@@ -50,7 +50,12 @@
             courses: {
                 type: Array,
                 default: () => []
-            }
+            },
+            selectedCourses: {
+                type: Array,
+                default: () => []
+            },
+            updateSelection: {}
         },
         components: { VueSelect, Course },
         beforeMount() {
@@ -60,15 +65,7 @@
                 }
             }
         },
-        data() {
-            return {
-                selectedCourses: []
-            }
-        },
         methods: {
-            displayCourses() {
-                console.log(this.selectedCourses);
-            },
             getDaysString(days) {
                 let str = "";
                 for (let day of days) {
@@ -78,6 +75,11 @@
             },
             getTimeString(start, end) {
                 return secondsTo12HrClock(start) + "-" + secondsTo12HrClock(end);
+            }
+        },
+        watch: {
+            selectedCourses: function () {
+                this.updateSelection();
             }
         }
     }

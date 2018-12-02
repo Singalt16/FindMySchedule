@@ -1,11 +1,59 @@
 <template>
     <div id="app">
-        <CourseSelect :courses="courses"/>
+        <CourseSelect :courses="courses" :selected-courses="selectedCourses" :update-selection="updateSelection"/>
+        <button v-on:click="findSchedules">Find Schedules</button>
     </div>
 </template>
 
 <script>
-    import CourseSelect from './components/CourseSelect.vue'
+    import CourseSelect from './components/CourseSelect.vue';
+
+    function meetTimesOverlap(m1, m2) {
+        for (let day1 of m1.days) {
+            for (let day2 of m2.days) {
+                if (day1 === day2) {
+                    if (m1.end > m2.start && m2.end > m1.start) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function sectionsOverlap(s1, s2) {
+        for (let meetTime1 of s1.meetTimes) {
+            for (let meetTime2 of s2.meetTimes) {
+                if (meetTimesOverlap(meetTime1, meetTime2)) return true;
+            }
+        }
+        return false;
+    }
+
+    function timeConflict(combo) {
+        for (let s1 of combo) {
+            for (let s2 of combo) {
+                if (s1 === s2) continue;
+                if (sectionsOverlap(s1.section, s2.section)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function allCombos(sections) {
+        if (sections.length < 1) return sections;
+        let combinations = sections[0].map(x => [x]);
+        for (let i = 1; i < sections.length; i++) {
+            let tmp = [];
+            for (let j = 0; j < sections[i].length; j++) {
+                for (let combo of combinations) {
+                    tmp.push([...combo, sections[i][j]])
+                }
+            }
+            combinations = tmp;
+        }
+        return combinations;
+    }
 
     export default {
         name: 'app',
@@ -62,7 +110,31 @@
                         name: 'HIS100',
                         sections: []
                     }
-                ]
+                ],
+                selectedCourses: [],
+                refactorThisName: []
+            }
+        },
+        methods: {
+            updateSelection: function() {
+                this.refactorThisName = this.selectedCourses.map(c => {
+                    let course = Object.assign({}, c);
+                    course.sections = c.sections.filter(s => s.selected);
+                    return course;
+                });
+                console.log(this.refactorThisName);
+            },
+            findSchedules: function() {
+                console.log(this.refactorThisName);
+                let sections = this.refactorThisName.map(
+                    c => c.sections.map(
+                        s => {return {course: c.name, section: s}}
+                    )
+                );
+                console.log(sections);
+                let combos = allCombos(sections);
+                console.log(combos);
+                console.log(combos.filter(c => !timeConflict(c)));
             }
         }
     }
