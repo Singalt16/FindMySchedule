@@ -1,13 +1,11 @@
 <template>
     <div id="app">
-        <CourseSelect :courses="courses" :selected-courses="selectedCourses" :update-selection="updateSelection"/>
-        <button v-on:click="findSchedules">Find Schedules</button>
         <vue-tabs>
             <v-tab title="1">
-                Content
+                <CourseSelect :courses="courses" :selected-courses="selectedCourses" :update-selection="updateSelection"/>
             </v-tab>
             <v-tab title="2">
-                No Content
+                <ScheduleList :schedules="findSchedules()"/>
             </v-tab>
         </vue-tabs>
     </div>
@@ -15,6 +13,7 @@
 
 <script>
     import CourseSelect from './components/CourseSelect.vue';
+    import ScheduleList from './components/ScheduleList.vue';
     import {VueTabs, VTab} from 'vue-nav-tabs';
     import 'vue-nav-tabs/themes/vue-tabs.css'
 
@@ -66,6 +65,7 @@
         name: 'app',
         components: {
             CourseSelect,
+            ScheduleList,
             VueTabs,
             VTab
         },
