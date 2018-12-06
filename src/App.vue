@@ -2,11 +2,21 @@
     <div id="app">
         <CourseSelect :courses="courses" :selected-courses="selectedCourses" :update-selection="updateSelection"/>
         <button v-on:click="findSchedules">Find Schedules</button>
+        <vue-tabs>
+            <v-tab title="1">
+                Content
+            </v-tab>
+            <v-tab title="2">
+                No Content
+            </v-tab>
+        </vue-tabs>
     </div>
 </template>
 
 <script>
     import CourseSelect from './components/CourseSelect.vue';
+    import {VueTabs, VTab} from 'vue-nav-tabs';
+    import 'vue-nav-tabs/themes/vue-tabs.css'
 
     function meetTimesOverlap(m1, m2) {
         for (let day1 of m1.days) {
@@ -29,12 +39,9 @@
     }
 
     function timeConflict(combo) {
-        for (let s1 of combo) {
-            for (let s2 of combo) {
-                if (s1 === s2) continue;
-                if (sectionsOverlap(s1.section, s2.section)) {
-                    return true;
-                }
+        for (let i = 0; i < combo.length - 1; i++) {
+            for (let j = i + 1; j < combo.length; j++) {
+                if (sectionsOverlap(combo[i].section, combo[j].section)) return true;
             }
         }
         return false;
@@ -58,7 +65,9 @@
     export default {
         name: 'app',
         components: {
-            CourseSelect
+            CourseSelect,
+            VueTabs,
+            VTab
         },
         data() {
             return {
@@ -122,19 +131,17 @@
                     course.sections = c.sections.filter(s => s.selected);
                     return course;
                 });
-                console.log(this.refactorThisName);
             },
             findSchedules: function() {
-                console.log(this.refactorThisName);
                 let sections = this.refactorThisName.map(
                     c => c.sections.map(
                         s => {return {course: c.name, section: s}}
                     )
                 );
-                console.log(sections);
                 let combos = allCombos(sections);
-                console.log(combos);
-                console.log(combos.filter(c => !timeConflict(c)));
+                let filteredCombos = combos.filter(c => !timeConflict(c));
+                console.log(filteredCombos);
+                return filteredCombos;
             }
         }
     }

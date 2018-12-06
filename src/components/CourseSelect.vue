@@ -17,7 +17,6 @@
 
 <script>
     import VueSelect from 'vue-select';
-    import Course from './Course.vue';
     import Vue from 'vue';
     Vue.component('v-select', VueSelect.VueSelect);
 
@@ -57,7 +56,7 @@
             },
             updateSelection: {}
         },
-        components: { VueSelect, Course },
+        components: { VueSelect },
         beforeMount() {
             for (let course of this.courses) {
                 for (let section of course.sections) {
