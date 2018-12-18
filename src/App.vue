@@ -1,10 +1,10 @@
 <template>
     <div id="app">
         <vue-tabs>
-            <v-tab title="1">
+            <v-tab title="Course Select">
                 <CourseSelect :courses="courses" :selected-courses="selectedCourses" :update-selection="updateSelection"/>
             </v-tab>
-            <v-tab title="2">
+            <v-tab title="Schedules">
                 <ScheduleList :schedules="findSchedules()"/>
             </v-tab>
         </vue-tabs>
@@ -14,7 +14,7 @@
 <script>
     import CourseSelect from './components/CourseSelect.vue';
     import ScheduleList from './components/ScheduleList.vue';
-    import {VueTabs, VTab} from 'vue-nav-tabs';
+    import {VTab, VueTabs} from 'vue-nav-tabs';
     import 'vue-nav-tabs/themes/vue-tabs.css'
 
     function meetTimesOverlap(m1, m2) {
@@ -139,9 +139,7 @@
                     )
                 );
                 let combos = allCombos(sections);
-                let filteredCombos = combos.filter(c => !timeConflict(c));
-                console.log(filteredCombos);
-                return filteredCombos;
+                return combos.filter(c => !timeConflict(c));
             }
         }
     }
