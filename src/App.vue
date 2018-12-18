@@ -5,7 +5,9 @@
                 <CourseSelect :courses="courses" :selected-courses="selectedCourses" :update-selection="updateSelection"/>
             </v-tab>
             <v-tab title="Schedules">
-                <ScheduleList :schedules="findSchedules()"/>
+                <div class="schedules-page">
+                    <ScheduleList :schedules="findSchedules()"/>
+                </div>
             </v-tab>
         </vue-tabs>
     </div>
@@ -147,11 +149,19 @@
 
 <style>
     #app {
+        margin: 50px 200px;
+        padding: 10px;
+        background-color: #fafafa;
+        height: 100%;
+        border-radius: 20px;
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
         color: #2c3e50;
-        margin-top: 60px;
+    }
+
+    .schedules-page {
+        padding: 50px 0;
     }
 </style>

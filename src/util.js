@@ -21,6 +21,12 @@ export const numToDay = day => {
     }
 };
 
+export const militaryTime = minutes => {
+    let hours = Math.floor(minutes / 60);
+    minutes -= (hours * 60);
+    return hours + ":" + minutes;
+};
+
 export const dayNumsToString = days => {
     return days.map(d => numToDay(d)).join("");
 };
