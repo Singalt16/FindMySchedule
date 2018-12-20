@@ -82,9 +82,13 @@
         padding: 0 200px 0 200px;
     }
 
+    .schedule-course-table {
+        margin: auto;
+    }
+
     .schedule {
-        border: 5px #dedec8	inset;
-        background-color: beige;
+        border: 3px #E3F4F2	inset;
+        background-color: #EEF4F2;
         padding: 20px;
     }
 

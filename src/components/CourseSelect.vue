@@ -1,6 +1,6 @@
 <template>
     <div>
-        <vue-select v-model="selectedCourses" label="name" :options="courses" multiple/>
+        <vue-select v-model="selectedCourses" label="name" :options="courses" class="course-select-bar" multiple/>
         <div v-for="course in selectedCourses">
             <label>{{course.name}}</label>
             <div v-for="section in course.sections">
@@ -59,4 +59,13 @@
 </script>
 
 <style scoped>
+
+    .course-select-bar {
+        width: 700px;
+        margin: 10px auto;
+        background-color: #EEF4F2;
+        border: 1px groove #7B9BA6;
+        border-radius: 5px;
+    }
+
 </style>

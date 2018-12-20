@@ -151,7 +151,7 @@
     #app {
         margin: 50px 200px;
         padding: 10px;
-        background-color: #fafafa;
+        background-color: #CDD6D5;
         height: 100%;
         border-radius: 20px;
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
